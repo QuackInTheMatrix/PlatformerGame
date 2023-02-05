@@ -457,6 +457,7 @@ GameObject:
   - component: {fileID: 508248013}
   - component: {fileID: 508248012}
   - component: {fileID: 508248015}
+  - component: {fileID: 508248016}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -582,6 +583,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpHeight: 10
+--- !u!256 &508248016
+FrictionJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508248010}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -1.0478855, y: -1.6856153}
+  m_MaxForce: 1
+  m_MaxTorque: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

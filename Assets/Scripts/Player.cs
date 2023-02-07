@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
@@ -14,10 +15,18 @@ public class Player : MonoBehaviour {
 	 public RectTransform canvasRectTransform;
 	 public float offset = 50f;
 	 private List<GameObject> instantiatedPrefabs = new List<GameObject>();
+	 private int score;
+	 public TextMeshProUGUI scoreText;
+	 
+	 void UdpateScoreText()
+	 {
+		 scoreText.SetText("Score: "+score);
+	 }
 
 
      void Awake()
      {
+	     score = 0;
 	     rb = GetComponent<Rigidbody2D>();
 	     naPodu = true;
 	     health = 3;
@@ -32,7 +41,7 @@ public class Player : MonoBehaviour {
      private IEnumerator FixHealth()
      {
 	     yield return new WaitForSeconds(1);
-	     Vector2 lokacijaSrca = new Vector2(30,-30);
+	     Vector2 lokacijaSrca = new Vector2(100,-100);
 	     for (int i = 0; i < 3; i++)
 	     {
 		     GameObject instantiatedPrefab = Instantiate(prefab, canvasRectTransform,false);
@@ -51,7 +60,7 @@ public class Player : MonoBehaviour {
 	     }
      }
 
-     private void OnTriggerEnter2D(Collider2D other)
+     void OnTriggerEnter2D(Collider2D other)
      {
 	     if (other.gameObject.CompareTag("Enemy"))
 	     {
@@ -59,7 +68,14 @@ public class Player : MonoBehaviour {
 		     Destroy(instantiatedPrefabs[health-1].gameObject);
 		     health--;
 	     }
+	     else if (other.gameObject.CompareTag("Bonus"))
+	     {
+		     score += 500;
+		     Destroy(other.gameObject);
+		     UdpateScoreText();
+	     }
      }
+
 
      void Update()
      {

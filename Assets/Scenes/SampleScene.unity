@@ -719,7 +719,7 @@ MonoBehaviour:
   jumpHeight: 10
   prefab: {fileID: 4031451217106203601, guid: dfdd8f6e9a0e47d38a50734f4e98251f, type: 3}
   canvasRectTransform: {fileID: 362215228}
-  offset: 50
+  offset: 40
 --- !u!256 &508248016
 FrictionJoint2D:
   m_ObjectHideFlags: 0

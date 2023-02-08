@@ -1,21 +1,39 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject continueButton, newGameButton, optionsButton, exitButton, backButton, volumeText, volumeSlider;
+    public GameObject newGameButton, optionsButton, exitButton, backButton, volumeText;
+    public Slider volumeSlider;
+    public Image slikaZvuka;
+    public Sprite soundOn, soundOff;
     private List<GameObject> mainMenuObjects;
     private List<GameObject> optionsObjects;
 
     private void Awake()
     {
-        mainMenuObjects = new List<GameObject>(){continueButton, newGameButton, optionsButton, exitButton};
-        optionsObjects = new List<GameObject>() { volumeSlider, volumeText, backButton };
+        mainMenuObjects = new List<GameObject>(){newGameButton, optionsButton, exitButton};
+        optionsObjects = new List<GameObject>() {volumeText, backButton, volumeSlider.gameObject, slikaZvuka.gameObject};
+    }
+
+    void Start()
+    {
+        volumeSlider.onValueChanged.AddListener(delegate {VolumeChange(); });
+    }
+
+    void VolumeChange()
+    {
+        if (volumeSlider.value==0)
+        {
+            slikaZvuka.sprite = soundOff;
+        }
+        else
+        {
+            slikaZvuka.sprite = soundOn;
+        }
     }
 
     void PromjeniActive(List<GameObject> objekti, bool setActive)
@@ -32,11 +50,7 @@ public class MainMenu : MonoBehaviour
         {
             GameObject clicked = EventSystem.current.currentSelectedGameObject;
             // TODO: doraditi da actually nastavlja kada cemo imati vise levela
-            if (continueButton == clicked)
-            {
-                SceneManager.LoadScene("TestLevel", LoadSceneMode.Single);
-            }
-            else if (newGameButton == clicked)
+            if (newGameButton == clicked)
             {
                 SceneManager.LoadScene("TestLevel", LoadSceneMode.Single);
             }

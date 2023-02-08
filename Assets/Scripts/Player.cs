@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 	
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour {
 	 private List<GameObject> instantiatedPrefabs = new List<GameObject>();
 	 private int score;
 	 public TextMeshProUGUI scoreText;
+	 public AudioSource audio;
 	 
 	 void UdpateScoreText()
 	 {
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour {
 	     rb = GetComponent<Rigidbody2D>();
 	     naPodu = true;
 	     health = 3;
+		 audio.volume = PlayerPrefs.GetFloat("Volume");
      }
 
      void Start()

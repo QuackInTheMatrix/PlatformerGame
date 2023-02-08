@@ -7,16 +7,21 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     public GameObject newGameButton, optionsButton, exitButton, backButton, volumeText;
-    public Slider volumeSlider;
+    //public Slider volumeSlider;
     public Image slikaZvuka;
     public Sprite soundOn, soundOff;
     private List<GameObject> mainMenuObjects;
     private List<GameObject> optionsObjects;
+    [SerializeField] Slider volumeSlider;
 
     private void Awake()
     {
+        if(PlayerPrefs.HasKey("Volume")){
+            SetVolume(PlayerPrefs.GetFloat("Volume"));
+            volumeSlider.value = PlayerPrefs.GetFloat("Volume");
+        }
         mainMenuObjects = new List<GameObject>(){newGameButton, optionsButton, exitButton};
-        optionsObjects = new List<GameObject>() {volumeText, backButton, volumeSlider.gameObject, slikaZvuka.gameObject};
+        optionsObjects = new List<GameObject>() {volumeText, backButton, slikaZvuka.gameObject};
     }
 
     void Start()
@@ -70,4 +75,11 @@ public class MainMenu : MonoBehaviour
             }
         }
     }
+    
+
+    public void SetVolume(float volume){
+        AudioListener.volume = volume;
+        PlayerPrefs.SetFloat("Volume", volume);
+    }
+
 }

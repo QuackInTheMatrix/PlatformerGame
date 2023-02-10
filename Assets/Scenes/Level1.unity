@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984a653f0ff1c8a7a6922474360c640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2
   jumpHeight: 10
   prefab: {fileID: 4031451217106203601, guid: dfdd8f6e9a0e47d38a50734f4e98251f, type: 3}
   canvasRectTransform: {fileID: 141075632}

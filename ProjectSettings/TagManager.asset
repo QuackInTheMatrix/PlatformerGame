@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Bonus
   - Platforma
+  - Spike
+  - DamageSpike
   layers:
   - Default
   - TransparentFX

@@ -22,6 +22,8 @@ public class Player : MonoBehaviour {
 	 public AudioSource audio;
 	 private MoveHorizontal script;
 	 private float noviSpeed;
+	 private bool immune;
+	 public Vector3 startPosition;
 	 
 	 void UdpateScoreText()
 	 {
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour {
 	     health = 3;
 		 audio.volume = PlayerPrefs.GetFloat("Volume");
 		 noviSpeed = speed;
+		 immune = false;
      }
 
      void Start()
@@ -57,7 +60,11 @@ public class Player : MonoBehaviour {
 		     lokacijaSrca.x += offset;
 	     }
      }
-     
+
+     bool gameOver()
+     {
+	     return health == 0;
+     }
 
      void OnCollisionEnter2D(Collision2D other)
      {
@@ -69,6 +76,16 @@ public class Player : MonoBehaviour {
 	     {
 		     naPodu = true;
 		     script = other.gameObject.GetComponent<MoveHorizontal>();
+	     }
+	     else if (other.gameObject.CompareTag("Spike"))
+	     {
+		     Destroy(instantiatedPrefabs[health-1].gameObject);
+		     health--;
+		     transform.position = startPosition;
+	     }else if (other.gameObject.CompareTag("DamageSpike"))
+	     {
+		     Destroy(instantiatedPrefabs[health-1].gameObject);
+		     health--;
 	     }
      }
 
@@ -82,11 +99,18 @@ public class Player : MonoBehaviour {
 	     }
      }
 
+     public IEnumerator MakeImmune()
+     {
+	     immune = true;
+	     yield return new WaitForSeconds(3);
+	     immune = false;
+     }
+
      void OnTriggerEnter2D(Collider2D other)
      {
-	     if (other.gameObject.CompareTag("Enemy"))
+	     if (other.gameObject.CompareTag("Enemy") && !immune)
 	     {
-		     Destroy(other.gameObject);
+		     StartCoroutine(MakeImmune());
 		     Destroy(instantiatedPrefabs[health-1].gameObject);
 		     health--;
 	     }
@@ -106,7 +130,12 @@ public class Player : MonoBehaviour {
 	     {
 		     noviSpeed = speed / 3;
 	     }
-         // ljevo/desno kretanje
+	     else
+	     {
+		     noviSpeed = speed;
+	     }
+
+	     // ljevo/desno kretanje
          if (Input.GetKey(KeyCode.LeftArrow))
          {
 	         rb.AddForce(new Vector2(-1,0) * noviSpeed);

@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
 	 public TextMeshProUGUI scoreText;
 	 public AudioSource audio;
 	 private MoveHorizontal script;
+	 private float noviSpeed;
 	 
 	 void UdpateScoreText()
 	 {
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour {
 	     naPodu = true;
 	     health = 3;
 		 audio.volume = PlayerPrefs.GetFloat("Volume");
+		 noviSpeed = speed;
      }
 
      void Start()
@@ -99,14 +101,19 @@ public class Player : MonoBehaviour {
 
      void Update()
      {
+	     
+	     if (!naPodu)
+	     {
+		     noviSpeed = speed / 3;
+	     }
          // ljevo/desno kretanje
-         if (Input.GetKey(KeyCode.LeftArrow) && naPodu)
+         if (Input.GetKey(KeyCode.LeftArrow))
          {
-	         rb.AddForce(new Vector2(-1,0) * speed);
+	         rb.AddForce(new Vector2(-1,0) * noviSpeed);
          }
-         else if (Input.GetKey(KeyCode.RightArrow) && naPodu)
+         else if (Input.GetKey(KeyCode.RightArrow))
          {
-			 rb.AddForce(new Vector2(1,0) * speed);
+			 rb.AddForce(new Vector2(1,0) * noviSpeed);
          }
          // skakanje
          if(Input.GetKey(KeyCode.Space) && naPodu){

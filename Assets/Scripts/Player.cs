@@ -120,6 +120,12 @@ public class Player : MonoBehaviour {
 		     Destroy(other.gameObject);
 		     UdpateScoreText();
 	     }
+		 else if (other.gameObject.CompareTag("KnjigaPod"))
+	     {
+		     Destroy(other.gameObject);
+		     Destroy(instantiatedPrefabs[health-3].gameObject);
+		     health = health-3;
+	     }
      }
 
 
@@ -134,8 +140,7 @@ public class Player : MonoBehaviour {
 	     {
 		     noviSpeed = speed;
 	     }
-
-	     // ljevo/desno kretanje
+         // ljevo/desno kretanje
          if (Input.GetKey(KeyCode.LeftArrow))
          {
 	         rb.AddForce(new Vector2(-1,0) * noviSpeed);

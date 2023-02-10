@@ -10,6 +10,7 @@ TagManager:
   - Platforma
   - Spike
   - DamageSpike
+  - KnjigaPod
   layers:
   - Default
   - TransparentFX

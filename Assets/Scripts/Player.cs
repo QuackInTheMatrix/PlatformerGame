@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour {
 	 private int score;
 	 public TextMeshProUGUI scoreText;
 	 public AudioSource audio;
+	 private MoveHorizontal script;
 	 
 	 void UdpateScoreText()
 	 {
@@ -55,11 +57,26 @@ public class Player : MonoBehaviour {
      }
      
 
-     void OnCollisionEnter2D(Collision2D collision)
+     void OnCollisionEnter2D(Collision2D other)
      {
-	     if (collision.gameObject.CompareTag("Pod"))
+	     if (other.gameObject.CompareTag("Pod"))
 	     {
 		     naPodu = true;
+	     }
+	     else if (other.gameObject.CompareTag("Platforma"))
+	     {
+		     naPodu = true;
+		     script = other.gameObject.GetComponent<MoveHorizontal>();
+	     }
+     }
+
+     private void OnCollisionStay2D(Collision2D other)
+     {
+	     if (other.gameObject.CompareTag("Platforma"))
+	     {
+		     transform.position = Vector3.MoveTowards(transform.position,
+			     script.destination+new Vector3(0,transform.position.y-other.transform.position.y,0),
+			     script.speed*Time.deltaTime);
 	     }
      }
 

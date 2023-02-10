@@ -100,11 +100,11 @@ public class Player : MonoBehaviour {
      void Update()
      {
          // ljevo/desno kretanje
-         if (Input.GetKey(KeyCode.LeftArrow))
+         if (Input.GetKey(KeyCode.LeftArrow) && naPodu)
          {
 	         rb.AddForce(new Vector2(-1,0) * speed);
          }
-         else if (Input.GetKey(KeyCode.RightArrow))
+         else if (Input.GetKey(KeyCode.RightArrow) && naPodu)
          {
 			 rb.AddForce(new Vector2(1,0) * speed);
          }

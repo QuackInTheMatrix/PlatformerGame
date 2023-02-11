@@ -21,12 +21,15 @@ public class MainMenu : MonoBehaviour
             volumeSlider.value = PlayerPrefs.GetFloat("Volume");
         }
         mainMenuObjects = new List<GameObject>(){newGameButton, optionsButton, exitButton};
-        optionsObjects = new List<GameObject>() {volumeText, backButton, slikaZvuka.gameObject};
+        optionsObjects = new List<GameObject>() {volumeText, backButton, slikaZvuka.gameObject, volumeSlider.gameObject};
     }
 
     void Start()
     {
         volumeSlider.onValueChanged.AddListener(delegate {VolumeChange(); });
+        PlayerPrefs.SetInt("level",1);
+        PlayerPrefs.SetInt("score",0);
+        PlayerPrefs.SetInt("life",3);
     }
 
     void VolumeChange()
@@ -54,10 +57,9 @@ public class MainMenu : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GameObject clicked = EventSystem.current.currentSelectedGameObject;
-            // TODO: doraditi da actually nastavlja kada cemo imati vise levela
             if (newGameButton == clicked)
             {
-                SceneManager.LoadScene("TestLevel", LoadSceneMode.Single);
+                SceneManager.LoadScene("Level1", LoadSceneMode.Single);
             }
             else if (optionsButton == clicked)
             {

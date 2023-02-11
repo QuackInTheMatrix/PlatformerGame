@@ -11,6 +11,8 @@ TagManager:
   - Spike
   - DamageSpike
   - KnjigaPod
+  - DoubleJump
+  - NextLevel
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,8 @@ TagManager:
   - KnjigaPod
   - DoubleJump
   - NextLevel
+  - Health
+  - Boss
   layers:
   - Default
   - TransparentFX

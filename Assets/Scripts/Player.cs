@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
+using GameObject = UnityEngine.GameObject;
 
 public class Player : MonoBehaviour {
 	
@@ -12,53 +14,97 @@ public class Player : MonoBehaviour {
 	 public float speed=10f;
 	 public float jumpHeight=10f;
 	 private bool naPodu;
-	 private int health;
-	 public GameObject prefab;
+	 public GameObject prefab, diplomaPrefab;
 	 public RectTransform canvasRectTransform;
 	 public float offset = 50f;
-	 private List<GameObject> instantiatedPrefabs = new List<GameObject>();
-	 private int score;
-	 public TextMeshProUGUI scoreText;
+	 private List<GameObject> instanciraniHealth = new List<GameObject>();
+	 private List<GameObject> instanciraneDiplome = new List<GameObject>();
+	 private int score, health;
 	 public AudioSource audio;
 	 private MoveHorizontal script;
 	 private float noviSpeed;
+	 private bool immune;
+	 public Vector3 startPosition;
 	 
-	 void UdpateScoreText()
+	 void UdpateScore()
 	 {
-		 scoreText.SetText("Score: "+score);
+		 Vector2 lokacijaDiplome = new Vector2(-50, -150);
+		 if (instanciraneDiplome.Count!=0)
+		 {
+			 if (instanciraneDiplome.Count!=score)
+			 {
+				 PlayerPrefs.SetInt("score",score);
+			 }
+			 foreach (GameObject diplomaPrefab in instanciraneDiplome)
+			 {
+				 Destroy(diplomaPrefab);
+			 }
+			 instanciraneDiplome.Clear();
+		 }
+		 for (int i = 0; i < score; i++)
+		 {
+			 GameObject instantiatedPrefab = Instantiate(diplomaPrefab, canvasRectTransform,false);
+			 instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = lokacijaDiplome;
+			 instanciraneDiplome.Add(instantiatedPrefab);
+			 lokacijaDiplome.x -= offset;
+		 }
+		 Debug.Log("Diploma:"+score);
+	 }
+
+	 void UpdateHealth()
+	 {
+		 Vector2 lokacijaSrca = new Vector2(50,-100);
+		 if (instanciraniHealth.Count!=0)
+		 {
+			 if (instanciraniHealth.Count!=health)
+			 {
+				 PlayerPrefs.SetInt("life",health);
+			 }
+			 foreach (GameObject healthPrefab in instanciraniHealth)
+			 {
+				 Destroy(healthPrefab);
+			 }
+			 instanciraniHealth.Clear();
+		 }
+		 for (int i = 0; i < health; i++)
+		 {
+			 GameObject instantiatedPrefab = Instantiate(prefab, canvasRectTransform,false);
+			 instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = lokacijaSrca;
+			 instanciraniHealth.Add(instantiatedPrefab);
+			 lokacijaSrca.x += offset;
+		 }
+
+		 Debug.Log("HP:"+health);
 	 }
 
 
-     void Awake()
+	 void Awake()
      {
-	     score = 0;
+	     if (PlayerPrefs.HasKey("life") )
+	     {
+		     health = PlayerPrefs.GetInt("life");
+	     }
+
+	     if (PlayerPrefs.HasKey("score"))
+	     {
+		     score = PlayerPrefs.GetInt("score");
+	     }
+
+	     startPosition = transform.position;
 	     rb = GetComponent<Rigidbody2D>();
 	     naPodu = true;
-	     health = 3;
-		 audio.volume = PlayerPrefs.GetFloat("Volume");
-		 noviSpeed = speed;
-     }
-
-     void Start()
-     {
-	     StartCoroutine(FixHealth());
-     }
-     
-     // iz nekog razloga UI elemeti se nemogu odma kreirat u Start-u(valjda treba vremena da se canvas ucita)
-     private IEnumerator FixHealth()
-     {
-	     yield return new WaitForSeconds(1);
-	     Vector2 lokacijaSrca = new Vector2(100,-100);
-	     for (int i = 0; i < 3; i++)
+	     if (audio!=null)
 	     {
-		     GameObject instantiatedPrefab = Instantiate(prefab, canvasRectTransform,false);
-		     instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = lokacijaSrca;
-		     instantiatedPrefabs.Add(instantiatedPrefab);
-		     lokacijaSrca.x += offset;
+		     audio.volume = PlayerPrefs.GetFloat("Volume");
 	     }
+	     noviSpeed = speed;
+		 immune = false;
      }
-     
-
+	 void OnBecameVisible()
+     {
+	     UpdateHealth();
+	     UdpateScore();
+     } 
      void OnCollisionEnter2D(Collision2D other)
      {
 	     if (other.gameObject.CompareTag("Pod"))
@@ -69,6 +115,16 @@ public class Player : MonoBehaviour {
 	     {
 		     naPodu = true;
 		     script = other.gameObject.GetComponent<MoveHorizontal>();
+	     }
+	     else if (other.gameObject.CompareTag("Spike"))
+	     {
+		     health--;
+		     UpdateHealth();
+		     transform.position = startPosition;
+	     }else if (other.gameObject.CompareTag("DamageSpike"))
+	     {
+		     health--;
+		     UpdateHealth();
 	     }
      }
 
@@ -82,25 +138,43 @@ public class Player : MonoBehaviour {
 	     }
      }
 
+     public IEnumerator MakeImmune()
+     {
+	     immune = true;
+	     yield return new WaitForSeconds(3);
+	     immune = false;
+     }
+
      void OnTriggerEnter2D(Collider2D other)
      {
-	     if (other.gameObject.CompareTag("Enemy"))
+	     if (other.gameObject.CompareTag("Enemy") && !immune)
 	     {
-		     Destroy(other.gameObject);
-		     Destroy(instantiatedPrefabs[health-1].gameObject);
+		     StartCoroutine(MakeImmune());
 		     health--;
+		     UpdateHealth();
 	     }
 	     else if (other.gameObject.CompareTag("Bonus"))
 	     {
-		     score += 500;
+		     score++;
 		     Destroy(other.gameObject);
-		     UdpateScoreText();
+		     UdpateScore();
 	     }
 		 else if (other.gameObject.CompareTag("KnjigaPod"))
 	     {
+		     health = 0;
+		     UpdateHealth();
+	     }
+	     else if(other.gameObject.CompareTag("DoubleJump"))
+	     {
+		     rb.AddForce(new Vector2(0,1)*jumpHeight,ForceMode2D.Impulse);
+	     }
+	     else if (other.gameObject.CompareTag("NextLevel"))
+	     {
 		     Destroy(other.gameObject);
-		     Destroy(instantiatedPrefabs[health-3].gameObject);
-		     health = health-3;
+		     score++;
+		     UdpateScore();
+		     PlayerPrefs.SetInt("level",PlayerPrefs.GetInt("level")+1);
+		     SceneManager.LoadScene("Level"+(PlayerPrefs.GetInt("level")), LoadSceneMode.Single);
 	     }
      }
 
@@ -111,9 +185,12 @@ public class Player : MonoBehaviour {
 	     if (!naPodu)
 	     {
 		     noviSpeed = speed / 3;
-	     }else noviSpeed = speed;
-         // ljevo/desno kretanje
-         if (Input.GetKey(KeyCode.LeftArrow))
+	     }
+	     else
+	     {
+		     noviSpeed = speed;
+	     }
+	     if (Input.GetKey(KeyCode.LeftArrow))
          {
 	         rb.AddForce(new Vector2(-1,0) * noviSpeed);
          }
@@ -121,8 +198,7 @@ public class Player : MonoBehaviour {
          {
 			 rb.AddForce(new Vector2(1,0) * noviSpeed);
          }
-         // skakanje
-         if(Input.GetKey(KeyCode.Space) && naPodu){
+	     if(Input.GetKey(KeyCode.Space) && naPodu){
 			 rb.AddForce(new Vector2(0,1)*jumpHeight,ForceMode2D.Impulse);
 			 naPodu = false;
          }

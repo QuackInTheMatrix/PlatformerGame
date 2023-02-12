@@ -8,7 +8,11 @@ TagManager:
   - Enemy
   - Bonus
   - Platforma
+  - Spike
+  - DamageSpike
   - KnjigaPod
+  - DoubleJump
+  - NextLevel
   layers:
   - Default
   - TransparentFX

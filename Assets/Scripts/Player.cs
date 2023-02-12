@@ -176,6 +176,12 @@ public class Player : MonoBehaviour {
 		     PlayerPrefs.SetInt("level",PlayerPrefs.GetInt("level")+1);
 		     SceneManager.LoadScene("Level"+(PlayerPrefs.GetInt("level")), LoadSceneMode.Single);
 	     }
+		 else if (other.gameObject.CompareTag("Health"))
+	     {
+		     Destroy(other.gameObject);
+		     health++;
+		     UpdateHealth();
+	     }
      }
 
 

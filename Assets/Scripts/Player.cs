@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Image = UnityEngine.UI.Image;
 using UnityEngine.UI;
@@ -14,17 +15,19 @@ public class Player : MonoBehaviour {
 	 public float speed=10f;
 	 public float jumpHeight=10f;
 	 private bool naPodu;
-	 public GameObject prefab, diplomaPrefab;
+	 public GameObject prefab, diplomaPrefab, gameOverButton, gameOverText;
 	 public RectTransform canvasRectTransform;
 	 public float offset = 50f;
 	 private List<GameObject> instanciraniHealth = new List<GameObject>();
 	 private List<GameObject> instanciraneDiplome = new List<GameObject>();
+	 public List<GameObject> gameOverObjekti = new List<GameObject>();
 	 private int score, health;
 	 public AudioSource audio;
 	 private MoveHorizontal script;
 	 private float noviSpeed;
 	 private bool immune;
 	 public Vector3 startPosition;
+	 private bool gameOver;
 	 
 	 void UdpateScore()
 	 {
@@ -74,7 +77,16 @@ public class Player : MonoBehaviour {
 			 lokacijaSrca.x += offset;
 		 }
 
-		 Debug.Log("HP:"+health);
+		 if (health==0)
+		 {
+			 gameOver = true;
+			 foreach (GameObject objekt in gameOverObjekti)
+			 {
+				 objekt.SetActive(true);
+			 }
+			 rb.gravityScale = 0;
+			 // this.gameObject.SetActive(false);
+		 }
 	 }
 
 
@@ -84,12 +96,11 @@ public class Player : MonoBehaviour {
 	     {
 		     health = PlayerPrefs.GetInt("life");
 	     }
-
 	     if (PlayerPrefs.HasKey("score"))
 	     {
 		     score = PlayerPrefs.GetInt("score");
 	     }
-
+	     gameOver = false;
 	     startPosition = transform.position;
 	     rb = GetComponent<Rigidbody2D>();
 	     naPodu = true;
@@ -99,6 +110,8 @@ public class Player : MonoBehaviour {
 	     }
 	     noviSpeed = speed;
 		 immune = false;
+		 gameOverObjekti.Add(gameOverButton);
+		 gameOverObjekti.Add(gameOverText);
      }
 	 void OnBecameVisible()
      {
@@ -196,18 +209,27 @@ public class Player : MonoBehaviour {
 	     {
 		     noviSpeed = speed;
 	     }
-	     if (Input.GetKey(KeyCode.LeftArrow))
+	     if (Input.GetKey(KeyCode.LeftArrow) && !gameOver)
          {
 	         rb.AddForce(new Vector2(-1,0) * noviSpeed);
          }
-         else if (Input.GetKey(KeyCode.RightArrow))
+         else if (Input.GetKey(KeyCode.RightArrow) && !gameOver)
          {
 			 rb.AddForce(new Vector2(1,0) * noviSpeed);
          }
-	     if(Input.GetKey(KeyCode.Space) && naPodu){
+	     if(Input.GetKey(KeyCode.Space) && naPodu && !gameOver){
 			 rb.AddForce(new Vector2(0,1)*jumpHeight,ForceMode2D.Impulse);
 			 naPodu = false;
          }
+
+	     if (Input.GetMouseButtonDown(0))
+	     {
+		     GameObject clicked = EventSystem.current.currentSelectedGameObject;
+		     if (gameOverButton == clicked)
+		     {
+			     SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+		     }
+	     }
      }
 }
 

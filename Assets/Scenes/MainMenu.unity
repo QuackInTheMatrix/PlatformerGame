@@ -701,6 +701,7 @@ MonoBehaviour:
   jumpHeight: 10
   prefab: {fileID: 4031451217106203601, guid: dfdd8f6e9a0e47d38a50734f4e98251f, type: 3}
   diplomaPrefab: {fileID: 0}
+  gameOverMainMenu: {fileID: 0}
   canvasRectTransform: {fileID: 0}
   offset: 100
   audio: {fileID: 0}

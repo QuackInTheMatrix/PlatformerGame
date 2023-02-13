@@ -28,6 +28,7 @@ public class Player : MonoBehaviour {
 	 private bool immune;
 	 public Vector3 startPosition;
 	 private bool gameOver;
+	 private Color defaultColor;
 	 
 	 void UdpateScore()
 	 {
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour {
 			 GameObject instantiatedPrefab = Instantiate(diplomaPrefab, canvasRectTransform,false);
 			 instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = lokacijaDiplome;
 			 instanciraneDiplome.Add(instantiatedPrefab);
-			 lokacijaDiplome.x -= offset;
+			 lokacijaDiplome.x -= 50f;
 		 }
 		 Debug.Log("Diploma:"+score);
 	 }
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour {
 			 GameObject instantiatedPrefab = Instantiate(prefab, canvasRectTransform,false);
 			 instantiatedPrefab.GetComponent<RectTransform>().anchoredPosition = lokacijaSrca;
 			 instanciraniHealth.Add(instantiatedPrefab);
-			 lokacijaSrca.x += offset;
+			 lokacijaSrca.x += 100f;
 		 }
 
 		 if (health==0)
@@ -112,6 +113,7 @@ public class Player : MonoBehaviour {
 		 immune = false;
 		 gameOverObjekti.Add(gameOverButton);
 		 gameOverObjekti.Add(gameOverText);
+		 defaultColor = this.gameObject.GetComponent<SpriteRenderer>().color;
      }
 	 void OnBecameVisible()
      {
@@ -154,7 +156,9 @@ public class Player : MonoBehaviour {
      public IEnumerator MakeImmune()
      {
 	     immune = true;
+	     this.gameObject.GetComponent<SpriteRenderer>().color=Color.green;
 	     yield return new WaitForSeconds(3);
+	     this.gameObject.GetComponent<SpriteRenderer>().color=defaultColor;
 	     immune = false;
      }
 
@@ -194,6 +198,13 @@ public class Player : MonoBehaviour {
 		     Destroy(other.gameObject);
 		     health++;
 		     UpdateHealth();
+	     }
+	     else if (other.gameObject.CompareTag("Boss"))
+	     {
+		     Destroy(other.gameObject);
+		     score++;
+		     UdpateScore();
+		     SceneManager.LoadScene("Victory", LoadSceneMode.Single);
 	     }
      }
 

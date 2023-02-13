@@ -319,9 +319,10 @@ GameObject:
   - component: {fileID: 80946622}
   - component: {fileID: 80946621}
   - component: {fileID: 80946623}
+  - component: {fileID: 80946624}
   m_Layer: 0
   m_Name: Book2 (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -406,6 +407,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+--- !u!61 &80946624
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80946620}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.04, y: 5.14}
+    newSize: {x: 3.04, y: 5.14}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.04, y: 5.14}
+  m_EdgeRadius: 0
 --- !u!1 &109968852
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +571,7 @@ GameObject:
   - component: {fileID: 141075633}
   - component: {fileID: 141075635}
   - component: {fileID: 141075634}
+  - component: {fileID: 141075636}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -625,7 +653,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1332855763}
-  - {fileID: 702036057}
   - {fileID: 366792362}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -674,6 +701,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+--- !u!61 &141075636
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141075628}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &316578071
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +877,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 141075632}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -2015,9 +2068,10 @@ GameObject:
   - component: {fileID: 677417403}
   - component: {fileID: 677417402}
   - component: {fileID: 677417404}
+  - component: {fileID: 677417405}
   m_Layer: 0
   m_Name: Book2 (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2102,6 +2156,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+--- !u!61 &677417405
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677417401}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.04, y: 5.14}
+    newSize: {x: 3.04, y: 5.14}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.04, y: 5.14}
+  m_EdgeRadius: 0
 --- !u!1 &717508751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,12 +3992,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984a653f0ff1c8a7a6922474360c640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 10
   jumpHeight: 10
   prefab: {fileID: 4031451217106203601, guid: dfdd8f6e9a0e47d38a50734f4e98251f, type: 3}
   diplomaPrefab: {fileID: 1634802426550064967, guid: 63b5bd089ae596eef88c836db72485c4, type: 3}
   gameOverButton: {fileID: 1332855762}
-  gameOverText: {fileID: 702036056}
+  gameOverText: {fileID: 0}
   canvasRectTransform: {fileID: 141075632}
   offset: 100
   gameOverObjekti: []
@@ -5876,9 +5956,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1659650642}
   - component: {fileID: 1659650641}
+  - component: {fileID: 1659650643}
   m_Layer: 0
   m_Name: Book2 (4)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5950,6 +6031,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1659650643
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659650640}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.04, y: 5.14}
+    newSize: {x: 3.04, y: 5.14}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.04, y: 5.14}
+  m_EdgeRadius: 0
 --- !u!1 &1704162582
 GameObject:
   m_ObjectHideFlags: 0

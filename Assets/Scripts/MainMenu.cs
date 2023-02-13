@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     private List<GameObject> mainMenuObjects;
     private List<GameObject> optionsObjects;
     [SerializeField] Slider volumeSlider;
+    public AudioSource audio;
 
     private void Awake()
     {
@@ -80,7 +81,7 @@ public class MainMenu : MonoBehaviour
     
 
     public void SetVolume(float volume){
-        AudioListener.volume = volume;
+        audio.volume = volume;
         PlayerPrefs.SetFloat("Volume", volume);
     }
 
